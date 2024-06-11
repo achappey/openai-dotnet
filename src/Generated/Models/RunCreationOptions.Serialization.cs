@@ -207,13 +207,21 @@ namespace OpenAI.Assistants
                     writer.WriteNull("response_format");
                 }
             }
+            if (Optional.IsDefined(ParallelToolCalls))
+            {
+                if (ParallelToolCalls.HasValue)
+                {
+                    writer.WritePropertyName("parallel_tool_calls"u8);
+                    writer.WriteBooleanValue(ParallelToolCalls.Value);
+                }
+            }
             if (true && _serializedAdditionalRawData != null)
             {
                 foreach (var item in _serializedAdditionalRawData)
                 {
                     writer.WritePropertyName(item.Key);
 #if NET6_0_OR_GREATER
-				writer.WriteRawValue(item.Value);
+                    writer.WriteRawValue(item.Value);
 #else
                     using (JsonDocument document = JsonDocument.Parse(item.Value))
                     {
