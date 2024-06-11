@@ -23,4 +23,8 @@ public partial class VectorStoreFileAssociation
     /// </summary>
     [CodeGenMember("UsageBytes")]
     public int Size { get; }
+
+    [CodeGenMember("ChunkingStrategy")]
+    public VectorStoreChunkingStrategy? ChunkingStrategy { get; }
+
 }

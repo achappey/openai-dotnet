@@ -33,6 +33,13 @@ namespace OpenAI.VectorStores
             writer.WriteStringValue(VectorStoreId);
             writer.WritePropertyName("status"u8);
             writer.WriteStringValue(Status.ToSerialString());
+
+            if (ChunkingStrategy != null)
+            {
+                writer.WritePropertyName("chunking_strategy"u8);
+                writer.WriteObjectValue(ChunkingStrategy, options);
+            }
+
             if (LastError != null)
             {
                 writer.WritePropertyName("last_error"u8);

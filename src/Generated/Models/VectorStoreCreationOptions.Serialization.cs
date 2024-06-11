@@ -36,6 +36,12 @@ namespace OpenAI.VectorStores
                 writer.WritePropertyName("name"u8);
                 writer.WriteStringValue(Name);
             }
+            if (Optional.IsDefined(ChunkingStrategy))
+            {
+                writer.WritePropertyName("chunking_strategy"u8);
+                writer.WriteObjectValue(ChunkingStrategy);
+            }
+
             if (Optional.IsDefined(ExpirationPolicy))
             {
                 if (ExpirationPolicy != null)
@@ -107,6 +113,7 @@ namespace OpenAI.VectorStores
             IList<string> fileIds = default;
             string name = default;
             VectorStoreExpirationPolicy expiresAfter = default;
+            VectorStoreChunkingStrategy chunkingStrategy = default;
             IDictionary<string, string> metadata = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
             Dictionary<string, BinaryData> rawDataDictionary = new Dictionary<string, BinaryData>();
@@ -129,6 +136,11 @@ namespace OpenAI.VectorStores
                 if (property.NameEquals("name"u8))
                 {
                     name = property.Value.GetString();
+                    continue;
+                }
+                  if (property.NameEquals("chunking_strategy"u8))
+                {
+                    chunkingStrategy = VectorStoreChunkingStrategy.DeserializeVectorStoreChunkingStrategy(property.Value, options);
                     continue;
                 }
                 if (property.NameEquals("expires_after"u8))
@@ -161,7 +173,7 @@ namespace OpenAI.VectorStores
                 }
             }
             serializedAdditionalRawData = rawDataDictionary;
-            return new VectorStoreCreationOptions(fileIds ?? new ChangeTrackingList<string>(), name, expiresAfter, metadata ?? new ChangeTrackingDictionary<string, string>(), serializedAdditionalRawData);
+            return new VectorStoreCreationOptions(fileIds ?? new ChangeTrackingList<string>(), name, expiresAfter, chunkingStrategy, metadata ?? new ChangeTrackingDictionary<string, string>(), serializedAdditionalRawData);
         }
 
         BinaryData IPersistableModel<VectorStoreCreationOptions>.Write(ModelReaderWriterOptions options)

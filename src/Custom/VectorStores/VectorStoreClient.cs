@@ -168,9 +168,11 @@ public partial class VectorStoreClient
     /// <returns>
     /// A <see cref="VectorStoreFileAssociation"/> instance that represents the new association.
     /// </returns>
-    public virtual async Task<ClientResult<VectorStoreFileAssociation>> AddFileToVectorStoreAsync(string vectorStoreId, string fileId)
+    public virtual async Task<ClientResult<VectorStoreFileAssociation>> AddFileToVectorStoreAsync(string vectorStoreId, string fileId, VectorStoreFileAssociationOptions options)
     {
-        InternalCreateVectorStoreFileRequest internalRequest = new(fileId);
+        InternalCreateVectorStoreFileRequest internalRequest = new(fileId) {
+            ChunkingStrategy = options.ChunkingStrategy
+        };
         ClientResult protocolResult = await AddFileToVectorStoreAsync(vectorStoreId, internalRequest.ToBinaryContent(), null).ConfigureAwait(false);
         PipelineResponse protocolResponse = protocolResult?.GetRawResponse();
         VectorStoreFileAssociation fileAssociation = VectorStoreFileAssociation.FromResponse(protocolResponse);
@@ -185,9 +187,11 @@ public partial class VectorStoreClient
     /// <returns>
     /// A <see cref="VectorStoreFileAssociation"/> instance that represents the new association.
     /// </returns>
-    public virtual ClientResult<VectorStoreFileAssociation> AddFileToVectorStore(string vectorStoreId, string fileId)
+    public virtual ClientResult<VectorStoreFileAssociation> AddFileToVectorStore(string vectorStoreId, string fileId, VectorStoreFileAssociationOptions options)
     {
-        InternalCreateVectorStoreFileRequest internalRequest = new(fileId);
+        InternalCreateVectorStoreFileRequest internalRequest = new(fileId){
+            ChunkingStrategy = options.ChunkingStrategy
+        };
         ClientResult protocolResult = AddFileToVectorStore(vectorStoreId, internalRequest.ToBinaryContent(), null);
         PipelineResponse protocolResponse = protocolResult?.GetRawResponse();
         VectorStoreFileAssociation fileAssociation = VectorStoreFileAssociation.FromResponse(protocolResponse);
