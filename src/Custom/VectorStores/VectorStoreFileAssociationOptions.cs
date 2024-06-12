@@ -7,6 +7,6 @@
 public partial class VectorStoreFileAssociationOptions
 {
     [CodeGenMember("ChunkingStrategy")]
-    public VectorStoreChunkingStrategy? ChunkingStrategy { get; set; }
+    public VectorStoreChunkingStrategy ChunkingStrategy { get; set; }
 
 }

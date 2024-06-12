@@ -10,5 +10,5 @@ public partial class VectorStoreChunkingStrategy
     public string Type { get; set; }
 
     [CodeGenMember("StaticChunkingStrategy")]
-    public VectorStoreStaticChunkingStrategy? Static { get; set; }
+    public VectorStoreStaticChunkingStrategy Static { get; set; }
 }

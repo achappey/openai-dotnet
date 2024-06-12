@@ -96,10 +96,6 @@ namespace OpenAI.Assistants
 
         string IPersistableModel<FileSearchTool>.GetFormatFromOptions(ModelReaderWriterOptions options) => "J";
 
-        internal static new FileSearchTool FromResponse(PipelineResponse response)
-        {
-            using var document = JsonDocument.Parse(response.Content);
-            return DeserializeFileSearchTool(document.RootElement);
-        }
+      
     }
 }

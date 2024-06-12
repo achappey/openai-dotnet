@@ -25,6 +25,6 @@ public partial class VectorStoreFileAssociation
     public int Size { get; }
 
     [CodeGenMember("ChunkingStrategy")]
-    public VectorStoreChunkingStrategy? ChunkingStrategy { get; }
+    public VectorStoreChunkingStrategy ChunkingStrategy { get; }
 
 }
