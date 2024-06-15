@@ -12,47 +12,6 @@ namespace OpenAI.Assistants
 {
     public partial class FileSearchToolDefinition : IJsonModel<FileSearchToolDefinition>
     {
-        void IJsonModel<FileSearchToolDefinition>.Write(Utf8JsonWriter writer, ModelReaderWriterOptions options)
-        {
-            var format = options.Format == "W" ? ((IPersistableModel<FileSearchToolDefinition>)this).GetFormatFromOptions(options) : options.Format;
-            if (format != "J")
-            {
-                throw new FormatException($"The model {nameof(FileSearchToolDefinition)} does not support writing '{format}' format.");
-            }
-
-            writer.WriteStartObject();
-            if (Optional.IsDefined(_fileSearch))
-            {
-                writer.WritePropertyName("file_search"u8);
-                writer.WriteObjectValue<InternalAssistantToolsFileSearchFileSearch>(_fileSearch, options);
-            }
-            writer.WritePropertyName("type"u8);
-            writer.WriteStringValue(Type);
-
-            if (FileSearch != null)
-            {
-                writer.WritePropertyName("file_search"u8);
-                writer.WriteObjectValue(FileSearch);
-            }
-
-            if (true && _serializedAdditionalRawData != null)
-            {
-                foreach (var item in _serializedAdditionalRawData)
-                {
-                    writer.WritePropertyName(item.Key);
-#if NET6_0_OR_GREATER
-                    writer.WriteRawValue(item.Value);
-#else
-                    using (JsonDocument document = JsonDocument.Parse(item.Value))
-                    {
-                        JsonSerializer.Serialize(writer, document.RootElement);
-                    }
-#endif
-                }
-            }
-            writer.WriteEndObject();
-        }
-
         FileSearchToolDefinition IJsonModel<FileSearchToolDefinition>.Create(ref Utf8JsonReader reader, ModelReaderWriterOptions options)
         {
             var format = options.Format == "W" ? ((IPersistableModel<FileSearchToolDefinition>)this).GetFormatFromOptions(options) : options.Format;
@@ -76,7 +35,6 @@ namespace OpenAI.Assistants
             InternalAssistantToolsFileSearchFileSearch fileSearch = default;
             string type = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
-            FileSearchTool fileSearchTool = default;
             Dictionary<string, BinaryData> rawDataDictionary = new Dictionary<string, BinaryData>();
             foreach (var property in element.EnumerateObject())
             {
@@ -92,11 +50,6 @@ namespace OpenAI.Assistants
                 if (property.NameEquals("type"u8))
                 {
                     type = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("file_search"u8))
-                {
-                    fileSearchTool = FileSearchTool.DeserializeFileSearchTool(property.Value, options);
                     continue;
                 }
                 if (true)
