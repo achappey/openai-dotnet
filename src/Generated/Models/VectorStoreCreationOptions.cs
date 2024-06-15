@@ -17,12 +17,12 @@ namespace OpenAI.VectorStores
             Metadata = new ChangeTrackingDictionary<string, string>();
         }
 
-        internal VectorStoreCreationOptions(IList<string> fileIds, string name, VectorStoreExpirationPolicy expirationPolicy, VectorStoreChunkingStrategy vectorStoreChunkingStrategy, IDictionary<string, string> metadata, IDictionary<string, BinaryData> serializedAdditionalRawData)
+        internal VectorStoreCreationOptions(IList<string> fileIds, string name, VectorStoreExpirationPolicy expirationPolicy, FileChunkingStrategy chunkingStrategy, IDictionary<string, string> metadata, IDictionary<string, BinaryData> serializedAdditionalRawData)
         {
             FileIds = fileIds;
             Name = name;
-            ChunkingStrategy = vectorStoreChunkingStrategy;
             ExpirationPolicy = expirationPolicy;
+            ChunkingStrategy = chunkingStrategy;
             Metadata = metadata;
             _serializedAdditionalRawData = serializedAdditionalRawData;
         }

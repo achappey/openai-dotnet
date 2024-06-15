@@ -6,10 +6,7 @@ namespace OpenAI.VectorStores;
 internal partial class InternalCreateVectorStoreFileBatchRequest { }
 
 [CodeGenModel("CreateVectorStoreFileRequest")]
-internal partial class InternalCreateVectorStoreFileRequest
-{
-    public VectorStoreChunkingStrategy ChunkingStrategy { get; set; }
-}
+internal partial class InternalCreateVectorStoreFileRequest {}
 
 [CodeGenModel("DeleteVectorStoreFileResponse")]
 internal partial class InternalDeleteVectorStoreFileResponse { }
@@ -46,3 +43,27 @@ internal readonly partial struct InternalVectorStoreFileObjectObject { }
 
 [CodeGenModel("VectorStoreObjectObject")]
 internal readonly partial struct InternalVectorStoreObjectObject { }
+
+[CodeGenModel("StaticChunkingStrategy")]
+internal partial class InternalStaticChunkingStrategyDetails { }
+
+[CodeGenModel("FileChunkingStrategyRequestParam")]
+internal partial class InternalFileChunkingStrategyRequestParam { }
+
+[CodeGenModel("AutoChunkingStrategyRequestParam")]
+internal partial class InternalAutoChunkingStrategyRequestParam { }
+
+[CodeGenModel("StaticChunkingStrategyRequestParam")]
+internal partial class InternalStaticChunkingStrategyRequestParam { }
+
+[CodeGenModel("UnknownFileChunkingStrategyRequestParam")]
+internal partial class InternalUnknownFileChunkingStrategyRequestParamProxy { }
+
+[CodeGenModel("AutoChunkingStrategyResponseParam")]
+internal partial class InternalAutoChunkingStrategy { }
+
+[CodeGenModel("OtherChunkingStrategyResponseParam")]
+internal partial class InternalUnknownChunkingStrategy { }
+
+[CodeGenModel("UnknownFileChunkingStrategyResponseParam")]
+internal partial class InternalUnknownFileChunkingStrategyResponseParamProxy { }

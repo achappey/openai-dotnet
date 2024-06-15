@@ -36,12 +36,6 @@ namespace OpenAI.VectorStores
                 writer.WritePropertyName("name"u8);
                 writer.WriteStringValue(Name);
             }
-            if (Optional.IsDefined(ChunkingStrategy))
-            {
-                writer.WritePropertyName("chunking_strategy"u8);
-                writer.WriteObjectValue(ChunkingStrategy);
-            }
-
             if (Optional.IsDefined(ExpirationPolicy))
             {
                 if (ExpirationPolicy != null)
@@ -53,6 +47,11 @@ namespace OpenAI.VectorStores
                 {
                     writer.WriteNull("expires_after");
                 }
+            }
+            if (Optional.IsDefined(ChunkingStrategy))
+            {
+                writer.WritePropertyName("chunking_strategy"u8);
+                writer.WriteObjectValue<FileChunkingStrategy>(ChunkingStrategy, options);
             }
             if (Optional.IsCollectionDefined(Metadata))
             {
@@ -113,7 +112,7 @@ namespace OpenAI.VectorStores
             IList<string> fileIds = default;
             string name = default;
             VectorStoreExpirationPolicy expiresAfter = default;
-            VectorStoreChunkingStrategy chunkingStrategy = default;
+            FileChunkingStrategy chunkingStrategy = default;
             IDictionary<string, string> metadata = default;
             IDictionary<string, BinaryData> serializedAdditionalRawData = default;
             Dictionary<string, BinaryData> rawDataDictionary = new Dictionary<string, BinaryData>();
@@ -138,11 +137,6 @@ namespace OpenAI.VectorStores
                     name = property.Value.GetString();
                     continue;
                 }
-                  if (property.NameEquals("chunking_strategy"u8))
-                {
-                    chunkingStrategy = VectorStoreChunkingStrategy.DeserializeVectorStoreChunkingStrategy(property.Value, options);
-                    continue;
-                }
                 if (property.NameEquals("expires_after"u8))
                 {
                     if (property.Value.ValueKind == JsonValueKind.Null)
@@ -151,6 +145,15 @@ namespace OpenAI.VectorStores
                         continue;
                     }
                     expiresAfter = VectorStoreExpirationPolicy.DeserializeVectorStoreExpirationPolicy(property.Value, options);
+                    continue;
+                }
+                if (property.NameEquals("chunking_strategy"u8))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        continue;
+                    }
+                    chunkingStrategy = FileChunkingStrategy.DeserializeFileChunkingStrategy(property.Value, options);
                     continue;
                 }
                 if (property.NameEquals("metadata"u8))
@@ -173,7 +176,13 @@ namespace OpenAI.VectorStores
                 }
             }
             serializedAdditionalRawData = rawDataDictionary;
-            return new VectorStoreCreationOptions(fileIds ?? new ChangeTrackingList<string>(), name, expiresAfter, chunkingStrategy, metadata ?? new ChangeTrackingDictionary<string, string>(), serializedAdditionalRawData);
+            return new VectorStoreCreationOptions(
+                fileIds ?? new ChangeTrackingList<string>(),
+                name,
+                expiresAfter,
+                chunkingStrategy,
+                metadata ?? new ChangeTrackingDictionary<string, string>(),
+                serializedAdditionalRawData);
         }
 
         BinaryData IPersistableModel<VectorStoreCreationOptions>.Write(ModelReaderWriterOptions options)

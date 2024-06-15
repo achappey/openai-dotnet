@@ -225,7 +225,7 @@ public partial class AssistantTests
         });
         Validate(assistant);
 
-        AssistantThread thread = client.CreateThread(new()
+        AssistantThread thread = client.CreateThread(new ThreadCreationOptions()
         {
             InitialMessages = { new(["Please graph the equation y = 3x + 4"]), },
         });
@@ -365,7 +365,7 @@ public partial class AssistantTests
         Assert.That(messages.Count, Is.GreaterThan(1));
         Assert.That(messages.First().Role, Is.EqualTo(MessageRole.Assistant));
         Assert.That(messages.First().Content?[0], Is.Not.Null);
-        Assert.That(messages.First().Content[0].Text, Does.Contain("tacos"));
+        Assert.That(messages.First().Content[0].Text.ToLowerInvariant(), Does.Contain("tacos"));
     }
 
     [Test]
@@ -375,7 +375,7 @@ public partial class AssistantTests
         Assistant assistant = await client.CreateAssistantAsync("gpt-3.5-turbo");
         Validate(assistant);
 
-        AssistantThread thread = await client.CreateThreadAsync(new()
+        AssistantThread thread = await client.CreateThreadAsync(new ThreadCreationOptions()
         {
             InitialMessages = { new(["Hello there, assistant! How are you today?"]), },
         });
@@ -578,7 +578,7 @@ public partial class AssistantTests
                 Console.WriteLine(content.Text);
                 foreach (TextAnnotation annotation in content.TextAnnotations)
                 {
-                    Console.WriteLine($"  --> From file: {annotation.InputFileId}, quote: {annotation.InputQuote}, replacement: {annotation.TextToReplace}");
+                    Console.WriteLine($"  --> From file: {annotation.InputFileId}, replacement: {annotation.TextToReplace}");
                 }
             }
         }

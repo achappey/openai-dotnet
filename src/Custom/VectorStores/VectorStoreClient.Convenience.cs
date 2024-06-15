@@ -66,8 +66,8 @@ public partial class VectorStoreClient
     /// <returns>
     /// A <see cref="VectorStoreFileAssociation"/> instance that represents the new association.
     /// </returns>
-    public virtual Task<ClientResult<VectorStoreFileAssociation>> AddFileToVectorStoreAsync(VectorStore vectorStore, OpenAIFileInfo file, VectorStoreFileAssociationOptions options)
-        => AddFileToVectorStoreAsync(vectorStore?.Id, file?.Id, options);
+    public virtual Task<ClientResult<VectorStoreFileAssociation>> AddFileToVectorStoreAsync(VectorStore vectorStore, OpenAIFileInfo file)
+        => AddFileToVectorStoreAsync(vectorStore?.Id, file?.Id);
 
     /// <summary>
     /// Associates an uploaded file with a vector store, beginning ingestion of the file into the vector store.
@@ -77,8 +77,8 @@ public partial class VectorStoreClient
     /// <returns>
     /// A <see cref="VectorStoreFileAssociation"/> instance that represents the new association.
     /// </returns>
-    public virtual ClientResult<VectorStoreFileAssociation> AddFileToVectorStore(VectorStore vectorStore, OpenAIFileInfo file, VectorStoreFileAssociationOptions options)
-        => AddFileToVectorStore(vectorStore?.Id, file?.Id, options);
+    public virtual ClientResult<VectorStoreFileAssociation> AddFileToVectorStore(VectorStore vectorStore, OpenAIFileInfo file)
+        => AddFileToVectorStore(vectorStore?.Id, file?.Id);
 
     /// <summary>
     /// Gets the collection of <see cref="VectorStoreFileAssociation"/> instances representing file inclusions in the

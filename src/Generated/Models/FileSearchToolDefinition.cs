@@ -9,18 +9,9 @@ namespace OpenAI.Assistants
 {
     public partial class FileSearchToolDefinition : ToolDefinition
     {
-        public FileSearchToolDefinition(int? maxNumResults = null)
+        internal FileSearchToolDefinition(string type, IDictionary<string, BinaryData> serializedAdditionalRawData, InternalAssistantToolsFileSearchFileSearch fileSearch) : base(type, serializedAdditionalRawData)
         {
-            Type = "file_search";
-
-            if (maxNumResults.HasValue)
-            {
-                FileSearch = new FileSearchTool(maxNumResults);
-            }
-        }
-
-        internal FileSearchToolDefinition(string type, IDictionary<string, BinaryData> serializedAdditionalRawData) : base(type, serializedAdditionalRawData)
-        {
+            _fileSearch = fileSearch;
         }
 
         public static FileSearchTool FileSearch { get; set; }
